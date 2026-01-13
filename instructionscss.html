@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS Instructions — Headline Analyzer</title>
+  <link rel="stylesheet" href="instructions.css" />
+</head>
+<body>
+  <!-- Sticky top bar -->
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">
+        <div class="dot" aria-hidden="true"></div>
+        <div>
+          <div class="course">WORKSHOP HANDOUT</div>
+          <div class="title">CSS Tasks — Make the UI feel “Google-like”</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Page navigation">
+        <a href="#overview">Overview</a>
+        <a href="#contract">Contract</a>
+        <a href="#theory">Theory</a>
+        <a href="#tasks">Tasks</a>
+        <a href="#debug">Debug</a>
+        <a href="#links">Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- ===================================================== -->
+    <!-- OVERVIEW -->
+    <!-- ===================================================== -->
+    <section class="card" id="overview">
+      <h1>CSS Instructions (6.100A style)</h1>
+      <p class="small">
+        You will edit <code>styles.css</code> to style the Headline Analyzer. The HTML/JS already exists.
+        Your job is to make the UI look clean, readable, and interactive—without breaking the app.
+      </p>
+
+      <div class="callout">
+        <h3>What CSS controls</h3>
+        <ul>
+          <li><b>Layout</b>: where things sit on the page (centering, spacing, grids).</li>
+          <li><b>Look</b>: colors, shadows, borders, typography.</li>
+          <li><b>Feedback</b>: hover effects, focus rings, animations (bar growth, pop-in).</li>
+        </ul>
+      </div>
+
+      <div class="grid2">
+        <div class="note">
+          <h3>Project goal</h3>
+          <p class="small">
+            When the user clicks analyze, the results appear with a nice animation,
+            the progress bar grows smoothly, and the colors match the risk label.
+          </p>
+        </div>
+        <div class="note">
+          <h3>Your file has “Tasks”</h3>
+          <p class="small">
+            Inside <code>styles.css</code> you’ll see comments like <code>(Task 1.2)</code>.
+            Follow them in order. You can be creative, but don’t break the contracts.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- CONTRACT -->
+    <!-- ===================================================== -->
+    <section class="card" id="contract">
+      <h2>The CSS Contract (do NOT break this)</h2>
+
+      <div class="callout warn">
+        <h3>Rule #1: do not rename IDs/classes in HTML</h3>
+        <p class="small">
+          JavaScript finds elements by ID and updates them. If IDs/classes change, the site “stops working”.
+          CSS also depends on classes like <code>.card</code>, <code>.metrics</code>, <code>.bar</code>.
+        </p>
+      </div>
+
+      <div class="callout">
+        <h3>Selectors you must keep</h3>
+        <ul>
+          <li>Layout: <code>body</code>, <code>.container</code>, <code>.card</code>, <code>.row</code>, <code>.hidden</code></li>
+          <li>Input bar: <code>.chatBar</code>, <code>#headline</code>, <code>#analyzeBtn</code>, <code>#clearBtn</code></li>
+          <li>Results: <code>#result</code>, <code>.resultTop</code>, <code>.label</code>, <code>.barWrap</code>, <code>.bar</code></li>
+          <li>Metrics: <code>.metrics</code>, <code>.metric</code>, <code>.k</code>, <code>.v</code></li>
+          <li>(Optional rings): <code>.ring</code>, <code>.ring__inner</code>, <code>.vwrap</code>, <code>.pts</code></li>
+        </ul>
+      </div>
+
+      <p class="small">
+        Your current <code>styles.css</code> already includes most of the UI and a set of task comments.
+        These instructions are written to match that file. :contentReference[oaicite:0]{index=0}
+      </p>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- THEORY -->
+    <!-- ===================================================== -->
+    <section class="card" id="theory">
+      <h2>CSS Theory you need (everything beyond “basic loops”)</h2>
+
+      <div class="grid2">
+        <div class="note">
+          <h3>1) Selectors (how CSS targets elements)</h3>
+          <ul>
+            <li><code>h1</code> targets all h1 tags.</li>
+            <li><code>.card</code> targets anything with <code>class="card"</code>.</li>
+            <li><code>#headline</code> targets the element with <code>id="headline"</code> (IDs are unique).</li>
+            <li><code>.chatBar textarea#headline</code> targets the headline textarea only when inside <code>.chatBar</code>.</li>
+          </ul>
+        </div>
+
+        <div class="note">
+          <h3>2) Box model (spacing)</h3>
+          <ul>
+            <li><code>padding</code> = inside spacing.</li>
+            <li><code>border</code> = outline thickness.</li>
+            <li><code>margin</code> = outside spacing.</li>
+            <li><code>box-sizing: border-box</code> makes widths predictable.</li>
+          </ul>
+        </div>
+
+        <div class="note">
+          <h3>3) Flexbox (layout)</h3>
+          <ul>
+            <li><code>display:flex</code> makes children align in a row by default.</li>
+            <li><code>flex-direction: column</code> stacks children vertically.</li>
+            <li><code>justify-content</code> aligns on main axis.</li>
+            <li><code>align-items</code> aligns on cross axis.</li>
+            <li><code>gap</code> creates spacing between children.</li>
+          </ul>
+        </div>
+
+        <div class="note">
+          <h3>4) Transitions vs keyframe animations</h3>
+          <ul>
+            <li><b>Transition</b>: animates when a property changes (ex: width changes).</li>
+            <li><b>Keyframes</b>: runs a timeline you define (<code>@keyframes</code>).</li>
+          </ul>
+          <div class="codebox"><pre><code>/* transition example */
+.bar { transition: width 700ms ease; }
+
+/* animation example */
+@keyframes popIn { from{opacity:0} to{opacity:1} }</code></pre></div>
+        </div>
+      </div>
+
+      <!-- Little moving graphic (your CSS already supports this) -->
+      <div class="func-visual">
+        <h3>Visual: “data flows and UI reacts”</h3>
+        <p class="small">
+          Think of it like: user input → backend score → frontend updates → CSS animates.
+          The little squares below represent “movement/feedback”.
+        </p>
+        <div class="pipe">
+          <div class="node input">
+            <div class="cap">INPUT</div>
+            <div class="body">User types headline</div>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <div class="line"></div>
+            <div class="car"></div>
+            <div class="car car2"></div>
+          </div>
+
+          <div class="node func">
+            <div class="cap">CSS RULES</div>
+            <div class="body">Focus + hover + animation</div>
+          </div>
+
+          <div class="arrow" aria-hidden="true">
+            <div class="line"></div>
+            <div class="car"></div>
+            <div class="car car2"></div>
+          </div>
+
+          <div class="node output">
+            <div class="cap">OUTPUT</div>
+            <div class="body">Bar grows + color</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- TASKS -->
+    <!-- ===================================================== -->
+    <section class="card" id="tasks">
+      <h2>CSS Tasks (mapped to your Task comments)</h2>
+      <p class="small">
+        Work inside <code>styles.css</code>. Follow these tasks in order. You can change values freely
+        (sizes, spacing, colors), but keep the selectors the same. :contentReference[oaicite:1]{index=1}
+      </p>
+
+      <!-- Task 1 -->
+      <div class="task" id="t1">
+        <h3>Task 1 — Make the background cover the entire screen</h3>
+        <p class="small">
+          In your file, Task 1 is inside the <code>body</code> rule (Task 1.1–1.3).
+          Goal: The background should be the background of the whole screen, not just behind the container.
+        </p>
+
+        <details open>
+          <summary>What to do</summary>
+          <ul>
+            <li><b>Task 1.1 (font-family):</b> choose a font stack you like (Google-ish tends to be clean and simple).</li>
+            <li><b>Task 1.2 (background):</b> pick a background color/gradient. Keep <code>background-size: cover</code> and <code>no-repeat</code>.</li>
+            <li><b>Task 1.3 (centering with flex):</b> use flex to center the page content in a column.</li>
+          </ul>
+
+          <div class="callout warn">
+            <h3>Important: don’t cut off the results</h3>
+            <p class="small">
+              If you vertically center too aggressively (like <code>justify-content:center</code>),
+              the results card can push the title off-screen.
+              A safe pattern is:
+              <code>justify-content: flex-start</code> plus good padding on <code>.container</code>.
+            </p>
+          </div>
+
+          
+        </details>
+      </div>
+
+      <!-- Task 2 -->
+      <div class="task" id="t2">
+        <h3>Task 2 — Titles and subtitle typography</h3>
+        <p class="small">
+          These are <code>h1</code> and <code>.subtitle</code>. 
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li><b>Task 2.1:</b> style <code>h1</code> (size, weight, letter spacing, alignment).</li>
+            <li><b>Task 2.2:</b> style <code>.subtitle</code> (color should be muted, not full white).</li>
+          </ul>
+
+          <div class="callout">
+            <h3>Design principle</h3>
+            <ul>
+              <li>Titles: large, bold, tight letter spacing looks modern.</li>
+              <li>Subtitle: smaller and muted so it doesn’t compete with the title.</li>
+            </ul>
+          </div>
+
+        </details>
+      </div>
+
+      <!-- Task 3 -->
+      <div class="task" id="t3">
+        <h3>Task 3 — The chat/search bar (textarea + buttons on one line)</h3>
+        <p class="small">
+          This is the “WhatsApp-style” input bar. You already have selectors like <code>.chatBar</code>
+          and <code>.chatBar textarea#headline</code> in your CSS.
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li>Make the container pill-shaped with <code>border-radius: 999px</code>.</li>
+            <li>Use <code>:focus-within</code> to show a focus ring when the user clicks inside.</li>
+            <li>Make the textarea transparent so it feels like one unified bar.</li>
+            <li>Make buttons circular and icon-sized (<code>width/height</code> equal).</li>
+          </ul>
+
+          <div class="callout">
+            <h3>Theory: <code>:focus-within</code></h3>
+            <p class="small">
+              <code>.chatBar:focus-within</code> means: “apply these styles if any child element is focused”.
+              That lets you highlight the whole bar when the textarea is active.
+            </p>
+          </div>
+
+
+
+      <!-- Task 4 -->
+      <div class="task" id="t4">
+        <h3>Task 4 — Hidden elements should disappear</h3>
+        <p class="small">
+          Your results card starts as <code>class="card hidden"</code>. JS removes <code>hidden</code>
+          when data arrives. CSS must ensure hidden elements are not visible.
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li>Create (or keep) <code>.hidden { display: none; }</code></li>
+            <li>If results show too early, you probably broke this rule.</li>
+          </ul>
+
+        </details>
+      </div>
+
+      <!-- Task 5 -->
+      <div class="task" id="t5">
+        <h3>Task 5 — Results header layout (<code>.resultTop</code>)</h3>
+        <p class="small">
+          The top of results has the label chip, the numeric score, and the bar.
+          It must wrap nicely on small screens.
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li>Use <code>display:flex</code>, <code>align-items:center</code>.</li>
+            <li>Use <code>justify-content: space-between</code> to spread content.</li>
+            <li>Use <code>flex-wrap: wrap</code> to avoid overflow on mobile.</li>
+          </ul>
+
+        </details>
+      </div>
+
+      <!-- Task 6 -->
+      <div class="task" id="t6">
+        <h3>Task 6 — Label chip styling (<code>.label</code>)</h3>
+        <p class="small">
+          This chip shows risk level (green/yellow/red). 
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li>Keep the chip pill style (rounded, padded).</li>
+            <li>Decide whether label is solid or tinted.</li>
+            <li>If you want maximum clarity: use <b>solid</b> background and white text.</li>
+          </ul>
+
+          <div class="callout warn">
+            <h3>Google yellow requirement</h3>
+            <p class="small">
+              Google yellow is <code>#fbbc04</code> (your CSS variable <code>--g-yellow</code>).
+              If you use transparency, it might look like a “watermark”.
+            </p>
+          </div>
+
+
+        </details>
+      </div>
+
+      <!-- Task 7 -->
+      <div class="task" id="t7">
+        <h3>Task 7 — The main score bar (<code>.bar</code>)</h3>
+        <p class="small">
+          This is the most “visual” part: the bar should grow to its score and show the score text inside.
+          Your CSS already uses <code>transition: width</code> and shows text via <code>::after</code>. :contentReference[oaicite:2]{index=2}
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li>Ensure <code>.bar</code> starts with <code>width: 0%</code> in CSS.</li>
+            <li>Ensure it has <code>transition: width ...</code>.</li>
+            <li>Ensure it has a background color for each label (<code>.bar.green</code>, etc.).</li>
+            <li>Ensure the text is white and centered.</li>
+          </ul>
+
+          <div class="callout warn">
+            <h3>If the bar “doesn’t grow”, here are the usual causes</h3>
+            <ul>
+              <li><b>No transition:</b> width jumps instantly.</li>
+              <li><b>Not starting at 0%:</b> browser has nothing to animate from.</li>
+              <li><b>Element hidden:</b> if you set width while hidden, some browsers won’t animate well.</li>
+            </ul>
+          </div>
+
+          
+        </details>
+      </div>
+
+      <!-- Task 8 -->
+      <div class="task" id="t8">
+        <h3>Task 8 — Headings and lists in results</h3>
+        <p class="small">
+          This is where you make the content readable: section headers (“Why”, “Metrics”, “Tips”)
+          and list font sizes. In your file, these are Task 8.1–8.3.
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li><b>Task 8.1:</b> style <code>h2</code> (size/weight) for the label header.</li>
+            <li><b>Task 8.2:</b> style <code>h3</code> for section headings.</li>
+            <li><b>Task 8.3:</b> style <code>ul, ol</code> for comfortable reading.</li>
+          </ul>
+
+          <div class="callout">
+            <h3>Design principle: hierarchy</h3>
+            <ul>
+              <li><code>h2</code> should be bigger than <code>h3</code>.</li>
+              <li>Lists should be “body text size” (not tiny).</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <!-- Task 9 -->
+      <div class="task" id="t9">
+        <h3>Task 9 — Metric cards layout (<code>.metric</code>)</h3>
+        <p class="small">
+          Metrics are small “key/value” cards. Make them evenly spaced and easy to scan.
+        </p>
+
+        <details>
+          <summary>What to do</summary>
+          <ul>
+            <li>Use <code>padding</code> for breathing room.</li>
+            <li>Use <code>justify-content: space-between</code> to separate key/value.</li>
+            <li>Use <code>gap</code> so text doesn’t collide.</li>
+          </ul>
+
+        </details>
+      </div>
+
+      <!-- Task 10 -->
+      <div class="task" id="t10">
+        <h3>Task 10 (Optional/Advanced) — Circular rings for metric “weight”</h3>
+        <p class="small">
+          This is the “extra feedback”: each metric can show a circular progress ring.
+          Your CSS includes a ring system using <code>conic-gradient</code> and an animation that fills it. :contentReference[oaicite:3]{index=3}
+        </p>
+
+        <details>
+          <summary>How it works (concept)</summary>
+          <ul>
+            <li>The ring is a circle whose background is a <code>conic-gradient</code>.</li>
+            <li>The gradient angle depends on <code>--p</code> (a percentage number).</li>
+            <li>Animation changes <code>--p</code> from 0 to <code>--target</code>.</li>
+          </ul>
+
+          <div class="callout">
+            <h3>Theory: <code>conic-gradient</code></h3>
+            <p class="small">
+              A conic gradient draws a “pie chart” around a circle.
+              If we fill 60%, it looks like a ring that is 60% complete.
+            </p>
+          </div>
+
+          <div class="callout warn">
+            <h3>Important note</h3>
+            <p class="small">
+              Rings also require the HTML/JS to create ring elements and set <code>--target</code>.
+              If your current JS does not build rings yet, you can keep this as “bonus styling”
+              for later, or only focus on the main bar first.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <div class="footer small">
+        Biggest success pattern: get the layout + bar working first (Tasks 1–7),
+        then polish typography and metrics (Tasks 8–9), then add rings if time (Task 10).
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- DEBUG -->
+    <!-- ===================================================== -->
+    <section class="card" id="debug">
+      <h2>Debugging checklist (CSS)</h2>
+
+      <div class="callout">
+        <h3>Fast workflow</h3>
+        <ul>
+          <li>Right click → <b>Inspect</b> (DevTools).</li>
+          <li>Click the element that looks wrong.</li>
+          <li>See which CSS rules apply and which are crossed out.</li>
+          <li>Try changing values in DevTools first, then copy into <code>styles.css</code>.</li>
+        </ul>
+      </div>
+
+      <div class="grid2">
+        <div class="note">
+          <h3>Common break #1: Title disappears</h3>
+          <p class="small">
+            Cause: <code>justify-content:center</code> on body + content grows.
+            Fix: use <code>justify-content:flex-start</code> and allow scrolling.
+          </p>
+        </div>
+        <div class="note">
+          <h3>Common break #2: Bar has no color</h3>
+          <p class="small">
+            Cause: missing <code>.bar.green/.yellow/.red</code> backgrounds, or JS isn’t assigning classes.
+            Fix CSS first; then confirm in DevTools the bar element has class <code>green</code> or <code>yellow</code>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================== -->
+    <!-- LINKS -->
+    <!-- ===================================================== -->
+    <section class="card" id="links">
+      <h2>Helpful links (student research)</h2>
+      <p class="small">These are official references (MDN) for the exact topics you used.</p>
+
+      <div class="callout">
+        <h3>MDN references</h3>
+        <ul>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/flex" target="_blank" rel="noreferrer">Flexbox</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/:focus-within" target="_blank" rel="noreferrer">:focus-within</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition" target="_blank" rel="noreferrer">Transitions</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/animation" target="_blank" rel="noreferrer">Animations</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes" target="_blank" rel="noreferrer">@keyframes</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/gradient" target="_blank" rel="noreferrer">Gradients</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/conic-gradient" target="_blank" rel="noreferrer">conic-gradient (rings)</a></li>
+          <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media" target="_blank" rel="noreferrer">@media queries</a></li>
+        </ul>
+      </div>
+
+      <div class="footer small">
+        Done? Try making 2–3 small design changes:
+        increase spacing, strengthen focus ring, and improve mobile layout.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
